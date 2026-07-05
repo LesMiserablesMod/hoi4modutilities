@@ -73,7 +73,7 @@
 | `hoi4ModUtilities.modFile` | `string` | 当前工作的 `.mod` 文件路径，用于读取 `replace_path`。未指定时，会使用第一个工作区文件夹中的第一个 `.mod` 文件。 |
 | `hoi4ModUtilities.enableSupplyArea` | `boolean` | 如果你正在开发 HOI4 1.10 或更早版本的 mod，可用它检查 supply area。 |
 | `hoi4ModUtilities.previewLocalisation` | `enum` | 事件树预览使用的本地化语言。 |
-| `hoi4ModUtilities.featureFlags` | `array` of `string` | 功能标记，用于启用或禁用部分功能。修改后需要重新加载窗口。详情见原项目 Wiki。 |
+| `hoi4ModUtilities.featureFlags` | `array` of `string` | 功能标记，用于启用或禁用部分功能。修改后需要重新加载窗口。详情见 [Wiki](https://github.com/LesMiserablesMod/hoi4modutilities-mirror/wiki/Feature-flags)。 |
 
 ## 已知问题
 
@@ -89,6 +89,6 @@
 
 ## 贡献
 
-* 如果你有建议，可以在本 mirror 仓库提交 issue。
+* 如果你有建议，可以在本 [mirror 仓库](https://github.com/LesMiserablesMod/hoi4modutilities-mirror)提交 issue。
 * 如果你想贡献翻译，可以提交 pull request。本地化相关文件位于 `i18n` 目录。
 * 感谢原项目的所有贡献者。
