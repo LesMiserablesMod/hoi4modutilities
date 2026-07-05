@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        ref: ${{ github.event.release.tag_name }}
+        ref: ${{ github.event.repository.default_branch }}
 
     - name: Use Node.js 20.x
       uses: actions/setup-node@v4
@@ -32,6 +32,59 @@ jobs:
       run: |
         VERSION="${TAG_NAME#v}"
         npm version "$VERSION" --no-git-tag-version
+
+    - name: Update changelog from release notes
+      env:
+        TAG_NAME: ${{ github.event.release.tag_name }}
+        RELEASE_BODY: ${{ github.event.release.body }}
+      run: |
+        node - <<'NODE'
+        const fs = require('fs');
+
+        const changelogPath = 'CHANGELOG.md';
+        const releaseBody = (process.env.RELEASE_BODY || '').trim();
+
+        if (!releaseBody) {
+          console.log('Release body is empty; leaving CHANGELOG.md unchanged.');
+          process.exit(0);
+        }
+
+        const tagName = process.env.TAG_NAME || '';
+        const version = tagName.replace(/^v/, '');
+        const date = new Date().toISOString().slice(0, 10);
+        const normalizedBody = releaseBody.replace(/^(#{1,5})\s/gm, '#$1 ');
+        const changelog = fs.readFileSync(changelogPath, 'utf8').replace(/ - Latest(?=\n)/, '');
+        const entry = `## [${version}] - ${date} - Latest\n\n${normalizedBody}\n\n`;
+        const escapedVersion = version.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const existingEntry = new RegExp(`^## \\[${escapedVersion}\\][\\s\\S]*?(?=^## \\[|$)`, 'm');
+
+        if (existingEntry.test(changelog)) {
+          fs.writeFileSync(changelogPath, changelog.replace(existingEntry, entry));
+          process.exit(0);
+        }
+
+        const firstReleaseHeading = changelog.search(/^## \[/m);
+
+        const updated = firstReleaseHeading === -1
+          ? `${changelog.trimEnd()}\n\n${entry}`
+          : `${changelog.slice(0, firstReleaseHeading)}${entry}${changelog.slice(firstReleaseHeading)}`;
+
+        fs.writeFileSync(changelogPath, updated);
+        NODE
+
+    - name: Commit release metadata
+      env:
+        TAG_NAME: ${{ github.event.release.tag_name }}
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git add package.json package-lock.json CHANGELOG.md
+        if git diff --cached --quiet; then
+          echo "No release metadata changes to commit."
+          exit 0
+        fi
+        git commit -m "Release ${TAG_NAME} [skip ci]"
+        git push origin HEAD:${{ github.event.repository.default_branch }}
 
     - name: Package VSIX
       run: |

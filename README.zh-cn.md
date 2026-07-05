@@ -2,7 +2,8 @@
 
 [English](README.md)
 
-这是原项目 [hoi4modutilities](https://github.com/herbix/hoi4modutilities/) 的 mirror 和维护分支。项目目标不是重写插件，而是在原作者停止维护后，继续让这个轻量级 HOI4 mod 开发辅助工具适配当前游戏版本。
+> [!NOTE]
+> 这是原项目 [hoi4modutilities](https://github.com/herbix/hoi4modutilities/) 的 mirror 和维护分支。项目目标不是重写插件，而是在原作者停止维护后，继续让这个轻量级 HOI4 mod 开发辅助工具适配当前游戏版本。
 
 ## 项目立场
 
@@ -66,14 +67,14 @@
 
 ## 扩展设置
 
-| 设置 | 类型 | 说明 |
-| --- | --- | --- |
-| `hoi4ModUtilities.installPath` | `string` | Hearts of Iron IV 安装目录。未设置时，大多数功能无法正常工作。 |
-| `hoi4ModUtilities.loadDlcContents` | `boolean` | 预览文件时是否加载 DLC 图片。启用后会占用更多内存。 |
-| `hoi4ModUtilities.modFile` | `string` | 当前工作的 `.mod` 文件路径，用于读取 `replace_path`。未指定时，会使用第一个工作区文件夹中的第一个 `.mod` 文件。 |
-| `hoi4ModUtilities.enableSupplyArea` | `boolean` | 如果你正在开发 HOI4 1.10 或更早版本的 mod，可用它检查 supply area。 |
-| `hoi4ModUtilities.previewLocalisation` | `enum` | 事件树预览使用的本地化语言。 |
-| `hoi4ModUtilities.featureFlags` | `array` of `string` | 功能标记，用于启用或禁用部分功能。修改后需要重新加载窗口。详情见 [Wiki](https://github.com/LesMiserablesMod/hoi4modutilities-mirror/wiki/Feature-flags)。 |
+| 设置                                   | 类型                | 说明                                                                                                                                                      |
+| -------------------------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `hoi4ModUtilities.installPath`         | `string`            | Hearts of Iron IV 安装目录。未设置时，大多数功能无法正常工作。                                                                                            |
+| `hoi4ModUtilities.loadDlcContents`     | `boolean`           | 预览文件时是否加载 DLC 图片。启用后会占用更多内存。                                                                                                       |
+| `hoi4ModUtilities.modFile`             | `string`            | 当前工作的 `.mod` 文件路径，用于读取 `replace_path`。未指定时，会使用第一个工作区文件夹中的第一个 `.mod` 文件。                                           |
+| `hoi4ModUtilities.enableSupplyArea`    | `boolean`           | 如果你正在开发 HOI4 1.10 或更早版本的 mod，可用它检查 supply area。                                                                                       |
+| `hoi4ModUtilities.previewLocalisation` | `enum`              | 事件树预览使用的本地化语言。                                                                                                                              |
+| `hoi4ModUtilities.featureFlags`        | `array` of `string` | 功能标记，用于启用或禁用部分功能。修改后需要重新加载窗口。详情见 [Wiki](https://github.com/LesMiserablesMod/hoi4modutilities/wiki/Feature-flags)。 |
 
 ## 已知问题
 
@@ -89,6 +90,6 @@
 
 ## 贡献
 
-* 如果你有建议，可以在本 [mirror 仓库](https://github.com/LesMiserablesMod/hoi4modutilities-mirror)提交 issue。
+* 如果你有建议，可以在本 [维护仓库](https://github.com/LesMiserablesMod/hoi4modutilities) 提交 issue。
 * 如果你想贡献翻译，可以提交 pull request。本地化相关文件位于 `i18n` 目录。
 * 感谢原项目的所有贡献者。

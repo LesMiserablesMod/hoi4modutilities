@@ -4,7 +4,31 @@ All notable changes to the "hoi4modutilities" extension will be documented in th
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [0.12.2] - 2024/12/07 - Latest
+## [0.12.3] - 2026-07-05 - Latest
+
+### HOI4 Mod Utilities Maintained
+
+This release marks the transition from a simple mirror of the original HOI4 Mod Utilities project to a maintained fork focused on keeping the preview tools usable with current Hearts of Iron IV versions.
+
+The original extension had not been updated for a long time, while HOI4 has continued to receive major game updates and DLC content. As a result, some existing preview features no longer handled newer vanilla and modded content correctly. This fork keeps the lightweight nature of the original tool, but updates the parts that matter most for mod development.
+
+### Highlights
+
+- Renamed the extension package to `hoi4modutilities-maintained`.
+- Updated publisher metadata and project links for the maintained fork.
+- Added GitHub Release workflow for automatic VSIX packaging.
+- Added optional Marketplace publishing through `VSCE_PAT`.
+- Updated the build workflow to use Node.js 20.
+- Improved focus tree preview compatibility with newer icon and GFX loading behavior.
+- Improved technology preview usability, including mouse wheel zoom support.
+- Added Chinese README support with Marketplace-friendly localized README naming.
+- Preserved attribution to the original project while clarifying this fork's maintenance scope.
+
+### Notes
+
+This project remains a lightweight VS Code extension for Hearts of Iron IV mod development. The goal is not to turn it into a full replacement for the game or a standalone editor, but to keep the existing preview workflows practical and reliable for current vanilla and modded content.
+
+## [0.12.2] - 2024/12/07
 
 ### Fixed
 * Allow `|` in symbol type (to support the case `localization_key = building_state_modifier|dam`) (#105) (Contributor: [IShiraiKurokoI(Shirai_Kuroko)](https://github.com/IShiraiKurokoI)).

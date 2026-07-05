@@ -8,11 +8,11 @@
 	"icon": "icon.png",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/LesMiserablesMod/hoi4modutilities-mirror"
+		"url": "https://github.com/LesMiserablesMod/hoi4modutilities"
 	},
-	"homepage": "https://github.com/LesMiserablesMod/hoi4modutilities-mirror#readme",
+	"homepage": "https://github.com/LesMiserablesMod/hoi4modutilities#readme",
 	"bugs": {
-		"url": "https://github.com/LesMiserablesMod/hoi4modutilities-mirror/issues"
+		"url": "https://github.com/LesMiserablesMod/hoi4modutilities/issues"
 	},
 	"engines": {
 		"vscode": "^1.52.0"
@@ -83,7 +83,17 @@
 						"title": "%hoi4modutilities.previewLocalisation.title%",
 						"type": "string",
 						"default": "English",
-						"enum": ["Brazilian Portuguese", "English", "French", "German", "Japanese", "Polish", "Russian", "Simplified Chinese", "Spanish"],
+						"enum": [
+							"Brazilian Portuguese",
+							"English",
+							"French",
+							"German",
+							"Japanese",
+							"Polish",
+							"Russian",
+							"Simplified Chinese",
+							"Spanish"
+						],
 						"description": "%hoi4modutilities.previewLocalisation.desc%"
 					},
 					"hoi4ModUtilities.featureFlags": {
