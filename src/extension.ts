@@ -42,15 +42,6 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(registerGfxIndex());
     context.subscriptions.push(registerLocalisationIndex());
 
-    if (process.env.NODE_ENV !== 'production') {
-        vscode.commands.registerCommand('hoi4modutilities.test', () => {
-            const debugModule = require('./util/debug.shouldignore');
-            debugModule.testCommand();
-        });
-
-        setVscodeContext(ContextName.Hoi4MUInDev, true);
-    }
-    
     setVscodeContext(ContextName.Hoi4MULoaded, true);
 }
 

@@ -11,6 +11,7 @@
 		"sourceMap": true,
 		"rootDir": ".",
 		"strict": true,
+		"skipLibCheck": true,
 		"noFallthroughCasesInSwitch": true,
 		"importHelpers": true
 	},

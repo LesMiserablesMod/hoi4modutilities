@@ -1,4 +1,4 @@
-import { setState, getState, scrollToState, tryRun, subscribeRefreshButton } from "./util/common";
+import { setState, getState, scrollToState, tryRun, subscribeRefreshButton, enableZoom } from "./util/common";
 
 function folderChange(folder: string) {
     const elements = document.getElementsByClassName('techfolder');
@@ -15,9 +15,12 @@ window.addEventListener('load', tryRun(function() {
     const folder = getState().folder || element.value;
     element.value = folder;
     folderChange(folder);
-    scrollToState();
 
     subscribeRefreshButton();
+
+    const contentElement = document.getElementById('techtreecontent') as HTMLDivElement;
+    enableZoom(contentElement, 0, 40);
+    scrollToState();
 
     element.addEventListener('change', function() {
         folderChange(this.value);

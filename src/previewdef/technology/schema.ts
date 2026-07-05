@@ -15,6 +15,7 @@ export interface Technology {
     xor: string[];
     startYear: number;
     enableEquipments: boolean;
+    forceUseSmallTechLayout: boolean;
     subTechnologies: Technology[];
     token: Token | undefined;
 }
@@ -29,6 +30,7 @@ type TechnologiesDef = CustomMap<TechnologyDef>;
 
 interface TechnologyDef {
     enable_equipments: Enum;
+    force_use_small_tech_layout: boolean;
     path: TechnologyPath[];
     folder: Folder[];
     start_year: number;
@@ -52,6 +54,7 @@ interface TechnologyFile {
 
 const technologySchema: SchemaDef<TechnologyDef> = {
     enable_equipments: "enum",
+    force_use_small_tech_layout: "boolean",
     path: {
         _innerType: {
             leads_to_tech: "string",
@@ -168,6 +171,7 @@ function getTechnologies(technologies: HOIPartial<TechnologiesDef>['_map']): Rec
         const leadsToTechs = technology.path.map(p => p.leads_to_tech).filter((p): p is string => p !== undefined);
         const xor = technology.xor._values;
         const enableEquipments = technology.enable_equipments._values.length > 0;
+        const forceUseSmallTechLayout = technology.force_use_small_tech_layout ?? false;
         const folders: Record<string, TechnologyFolder> = {};
         
         for (const folder of technology.folder) {
@@ -181,7 +185,7 @@ function getTechnologies(technologies: HOIPartial<TechnologiesDef>['_map']): Rec
         }
 
         result[id] = {
-            id, token, startYear, leadsToTechs, xor, enableEquipments, folders,
+            id, token, startYear, leadsToTechs, xor, enableEquipments, forceUseSmallTechLayout, folders,
             subTechnologies: [],
         };
     }

@@ -121,11 +121,6 @@
 				"command": "hoi4modutilities.selecthoifolder",
 				"title": "%hoi4modutilities.selecthoifolder.title%",
 				"category": "%hoi4modutilities.category%"
-			},
-			{
-				"command": "hoi4modutilities.test",
-				"title": "HOI4 test",
-				"category": "%hoi4modutilities.category%"
 			}
 		],
 		"customEditors": [
@@ -178,10 +173,6 @@
 				},
 				{
 					"command": "hoi4modutilities.selecthoifolder"
-				},
-				{
-					"command": "hoi4modutilities.test",
-					"when": "hoi4MUInDev"
 				}
 			]
 		}

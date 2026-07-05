@@ -90,6 +90,7 @@ async function renderTechnologyFolders(technologyTrees: TechnologyTree[], folder
     `)}">
     </div>
     <div
+    id="techtreecontent"
     class="${styleTable.oneTimeStyle('mainContent', () => `
         position: absolute;
         left: 0;
@@ -268,7 +269,7 @@ async function renderTechnologyTreeGridBox(
                 return await renderXorItem(xorItem, gridboxType.format?._name ?? 'up', parent, commonOptions);
             } else {
                 const technology = treeMap[item.id];
-                const technologyItem = technology.enableEquipments ? folderItem : folderSmallItem;
+                const technologyItem = technology.enableEquipments && !technology.forceUseSmallTechLayout ? folderItem : folderSmallItem;
                 return await renderTechnology(technologyItem, technology, technology.folders[folder], parent, commonOptions, guiFiles, gfxFiles);
             }
         },
@@ -410,7 +411,7 @@ async function getTechnologySprite(sprite: string, technology: Technology, folde
             `GFX_technology_available_item_bg`,
         ];
     } else if (sprite === 'GFX_technology_medium' && callerType === 'icon') {
-        return await getTechnologyIcon(`GFX_${technology.id}_medium`, gfxFiles, 'GFX_technology_medium');
+        return await getTechnologyIcon([`GFX_${technology.id}_medium`, `GFX_${technology.id}`], gfxFiles, 'GFX_technology_medium');
     }
 
     return await getSpriteFromTryList(imageTryList, gfxFiles);
@@ -438,7 +439,7 @@ async function renderSubTechnology(
                     `GFX_subtechnology_available_item_bg`,
                 ];
             } else if (callerType === 'icon' && callerName?.toLowerCase() === 'picture') {
-                return getTechnologyIcon(sprite, gfxFiles);
+                return getTechnologyIcon([sprite], gfxFiles);
             }
 
             return getSpriteFromTryList(imageTryList, gfxFiles);
@@ -544,13 +545,15 @@ async function getSpriteFromTryList(tryList: string[], gfxFiles: string[]): Prom
     return background;
 }
 
-async function getTechnologyIcon(name: string, gfxFiles: string[], defaultIcon?: string): Promise<Sprite | undefined> {
-    const result = await getSpriteByGfxName(name, gfxFiles);
-    if (result !== undefined || !defaultIcon) {
-        return result;
+async function getTechnologyIcon(names: string[], gfxFiles: string[], defaultIcon?: string): Promise<Sprite | undefined> {
+    for (const name of names) {
+        const result = await getSpriteByGfxName(name, gfxFiles);
+        if (result !== undefined) {
+            return result;
+        }
     }
 
-    return await getSpriteByGfxName(defaultIcon, gfxFiles);
+    return defaultIcon ? await getSpriteByGfxName(defaultIcon, gfxFiles) : undefined;
 }
 
 function defaultGetSprite(gfxFiles: string[]) {

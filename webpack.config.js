@@ -59,6 +59,9 @@ const mainConfig = {
       VERSION: JSON.stringify(require("./package.json").version),
       IS_WEB_EXT: false,
     }),
+    new webpack.IgnorePlugin({
+      resourceRegExp: /^applicationinsights-native-metrics$/,
+    }),
   ],
   optimization: {
     minimizer: [

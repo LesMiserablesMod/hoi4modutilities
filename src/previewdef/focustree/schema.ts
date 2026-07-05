@@ -39,6 +39,7 @@ export interface Focus {
     token: Token | undefined;
     file: string;
     text?: string;
+    overlay?: string;
 }
 
 export interface FocusWarning extends Warning<string> {
@@ -70,6 +71,7 @@ interface FocusDef {
     offset: OffsetDef[];
     _token: Token;
     text?: string;
+    overlay?: string;
 }
 
 interface FocusIconDef {
@@ -138,6 +140,7 @@ const focusSchema: SchemaDef<FocusDef> = {
         _type: 'array',
     },
     text: "string",
+    overlay: "string",
 };
 
 const focusTreeSchema: SchemaDef<FocusTreeDef> = {
@@ -318,6 +321,7 @@ function getFocus(hoiFocus: HOIPartial<FocusDef>, conditionExprs: ConditionItem[
     }));
 
     const text = hoiFocus.text;
+    const overlay = hoiFocus.overlay;
 
     return {
         id,
@@ -334,6 +338,7 @@ function getFocus(hoiFocus: HOIPartial<FocusDef>, conditionExprs: ConditionItem[
         token: hoiFocus._token,
         file: filePath,
         text,
+        overlay,
     };
 }
 
@@ -463,18 +468,40 @@ function validateRelativePositionId(focuses: Record<string, Focus>, warnings: Fo
 }
 
 function parseFocusIcon(nodes: Node[], constants: {}, conditionExprs: ConditionItem[]): FocusIconWithCondition[] {
-    return nodes.map(n => parseSingleFocusIcon(n, constants, conditionExprs)).filter((v): v is FocusIconWithCondition => v !== undefined);
+    const result: FocusIconWithCondition[] = [];
+    for (const node of nodes) {
+        result.push(...parseSingleFocusIcon(node, constants, conditionExprs));
+    }
+    return result;
 }
 
-function parseSingleFocusIcon(node: Node, constants: {}, conditionExprs: ConditionItem[]): FocusIconWithCondition {
+function parseSingleFocusIcon(node: Node, constants: {}, conditionExprs: ConditionItem[]): FocusIconWithCondition[] {
     const stringResult = convertNodeToJson<string>(node, 'string', constants);
     if (stringResult) {
-        return { icon: stringResult, condition: true };
+        return [{ icon: stringResult, condition: true }];
+    }
+
+    const dynamicIconResult = parseDynamicFocusIcon(node, conditionExprs);
+    if (dynamicIconResult.length > 0) {
+        return dynamicIconResult;
     }
     
     const iconWithCondition = convertNodeToJson<FocusIconDef>(node, focusIconSchema, constants);
-    return {
+    return [{
         icon: iconWithCondition.value,
         condition: iconWithCondition.trigger ? extractConditionValue(iconWithCondition.trigger._raw.value, countryScope, conditionExprs).condition : true,
-    };
+    }];
+}
+
+function parseDynamicFocusIcon(node: Node, conditionExprs: ConditionItem[]): FocusIconWithCondition[] {
+    if (!Array.isArray(node.value)) {
+        return [];
+    }
+
+    return node.value
+        .filter(n => !!n.name && n.name !== 'value' && n.name !== 'trigger')
+        .map(n => ({
+            icon: n.name ?? undefined,
+            condition: extractConditionValue(n.value, countryScope, conditionExprs).condition,
+        }));
 }
