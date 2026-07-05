@@ -1,8 +1,22 @@
 # HOI4 Mod Utilities
 
+[中文说明](README.zh-CN.md)
+
 This extension add tools for Heart of Iron IV modding. Some of the tools may work on other Paradox games.
 
+This repository is a mirror and maintenance fork of the original project [hoi4modutilities](https://github.com/herbix/hoi4modutilities/). Its goal is not to rewrite the extension, but to keep this lightweight HOI4 modding utility usable for current game versions after the original project stopped being actively maintained.
+
+## Project stance
+
+The original author wrote:
+
 > I'm disappointed by Paradox because of the Silk Road thing. I'll pause this project until they fix it.
+
+The "Silk Road thing" refers to Paradox's handling of Silk Road-related historical framing in HOI4 content. A related focus was once named "Expand the Silk Road", presenting Timurid expansion, expansion into Central Asia and surrounding regions, and a railway from Urumqi to Herat as an "expansion" of the Silk Road. Later naming changes moved the wording closer to a Timurid framing, but did not fully address the underlying historical-context problem.
+
+This mirror preserves the original author's concern. The Silk Road was a complex trans-Eurasian network of trade and cultural exchange routes, and should not be reduced to a convenient label for an unrelated regional narrative. HOI4 can contain alternate history and gameplay abstraction, but real historical concepts should still be handled with basic respect for historical context, source awareness, and factual grounding.
+
+The maintenance work in this repository focuses on the tool itself: keeping focus tree, technology tree, map, event, GUI, GFX, and texture previews usable for current HOI4 versions and common mod development workflows.
 
 ## Features
 
