@@ -2,7 +2,7 @@
 	"name": "hoi4modutilities-maintained",
 	"displayName": "%hoi4modutilities.displayName%",
 	"description": "Maintained fork of HOI4 Mod Utilities with updated previews for current Hearts of Iron IV versions",
-	"version": "0.12.2",
+	"version": "0.12.4",
 	"author": "Chaofan Yang",
 	"publisher": "LesMiserablesMod",
 	"icon": "icon.png",

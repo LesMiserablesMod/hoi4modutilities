@@ -4,7 +4,21 @@ All notable changes to the "hoi4modutilities" extension will be documented in th
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [0.12.3] - 2026-07-05 - Latest
+## [0.12.4] - 2026-07-05 - Latest
+
+### What's Changed
+fix informations of the project
+* Bump flatted from 3.2.2 to 3.4.2 by @dependabot[bot] in https://github.com/LesMiserablesMod/hoi4modutilities/pull/2
+* Bump lodash from 4.17.21 to 4.18.1 by @dependabot[bot] in https://github.com/LesMiserablesMod/hoi4modutilities/pull/1
+* Bump fast-uri from 3.0.6 to 3.1.3 by @dependabot[bot] in https://github.com/LesMiserablesMod/hoi4modutilities/pull/3
+* Bump webpack from 5.94.0 to 5.108.4 by @dependabot[bot] in https://github.com/LesMiserablesMod/hoi4modutilities/pull/6
+
+### New Contributors
+* @dependabot[bot] made their first contribution in https://github.com/LesMiserablesMod/hoi4modutilities/pull/2
+
+**Full Changelog**: https://github.com/LesMiserablesMod/hoi4modutilities/compare/v0.12.3...v0.12.4
+
+## [0.12.3] - 2026-07-05
 
 ### HOI4 Mod Utilities Maintained
 
