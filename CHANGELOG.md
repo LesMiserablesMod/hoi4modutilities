@@ -20,6 +20,14 @@ Add a UI control and runtime support to toggle preview labels between IDs and lo
 
 <img width="1224" height="1280" alt="5a7332e4-a391-4e04-875a-e0befd340fc6" src="https://github.com/user-attachments/assets/5a7332e4-a391-4e04-875a-e0befd340fc6" />
 
+
+
+## Add preview label mode toggle (ID/Name)
+
+Add a UI control and runtime support to toggle preview labels between IDs and localized names. New CSS for the toggle; focus and technology content builders now inject data-preview-label-* and data-preview-title-* attributes and use localized text where available. instanttextbox gained options to control localization/raw rendering. Webview utilities implement subscribe/refresh/apply logic to toggle modes and update displayed text and titles; focustree and techtree wire these up on load and folder changes so the label mode updates without rebuilding content.
+
+<img width="1224" height="1280" alt="5a7332e4-a391-4e04-875a-e0befd340fc6" src="https://github.com/user-attachments/assets/5a7332e4-a391-4e04-875a-e0befd340fc6" />
+
 ## [0.12.4] - 2026-07-05
 
 ### What's Changed
