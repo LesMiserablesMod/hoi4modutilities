@@ -1,4 +1,4 @@
-import { setState, getState, scrollToState, tryRun, subscribeRefreshButton, enableZoom } from "./util/common";
+import { setState, getState, scrollToState, tryRun, subscribeRefreshButton, enableZoom, subscribePreviewLabelToggle, refreshPreviewLabelMode } from "./util/common";
 
 function folderChange(folder: string) {
     const elements = document.getElementsByClassName('techfolder');
@@ -8,9 +8,13 @@ function folderChange(folder: string) {
         const element = elements[i] as HTMLDivElement;
         element.style.display = element.id === folder ? 'block' : 'none';
     }
+
+    refreshPreviewLabelMode();
 }
 
 window.addEventListener('load', tryRun(function() {
+    subscribePreviewLabelToggle();
+
     const element = document.getElementById('folderSelector') as HTMLSelectElement;
     const folder = getState().folder || element.value;
     element.value = folder;

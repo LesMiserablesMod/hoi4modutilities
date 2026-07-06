@@ -123,6 +123,7 @@ async function renderFolderSelector(folders: string[], styleTable: StyleTable): 
         border-bottom: 1px solid var(--vscode-panel-border);
         z-index: 10;
     `)}">
+        ${renderPreviewLabelModeControl(styleTable)}
         <label for="folderSelector" class="${styleTable.oneTimeStyle('folderSelectorLabel', () => `margin-right:5px`)}">
             ${localize('techtree.techfolder', 'Technology folder: ')}
         </label>
@@ -135,6 +136,14 @@ async function renderFolderSelector(folders: string[], styleTable: StyleTable): 
                 ${folderOptions.join('')}
             </select>
         </div>
+    </div>`;
+}
+
+function renderPreviewLabelModeControl(styleTable: StyleTable): string {
+    return `<div class="preview-label-mode ${styleTable.oneTimeStyle('previewLabelModeContainer', () => `margin-right:10px`)}">
+        <span class="${styleTable.oneTimeStyle('previewLabelModeLabel', () => `margin-right:5px`)}">Label: </span>
+        <button type="button" data-preview-label-mode-value="id" aria-pressed="true">ID</button>
+        <button type="button" data-preview-label-mode-value="name" aria-pressed="false">Name</button>
     </div>`;
 }
 
@@ -172,6 +181,16 @@ async function renderTechnologyFolder(
             {
                 ...commonOptions,
                 onRenderChild: async (type, child, parentInfo) => {
+                    if (type === 'instanttextbox' && isTechnologyStaticTitleTextBox(child as HOIPartial<InstantTextBoxType>)) {
+                        const text = child as HOIPartial<InstantTextBoxType>;
+                        const localisedText = await getLocalisedTextQuick(text.text);
+                        return await renderInstantTextBox(
+                            { ...text, text: getLocalisationLabelContent(text.text ?? '', localisedText) },
+                            parentInfo,
+                            { ...commonOptions, localise: false, rawText: true }
+                        );
+                    }
+
                     if (type === 'gridbox') {
                         const tree = technologyTrees.find(t => t.startTechnology + '_tree' === child.name);
                         if (tree) {
@@ -358,11 +377,16 @@ async function renderTechnology(
 
             if (type === 'instanttextbox') {
                 const text = child as HOIPartial<InstantTextBoxType>;
-                const childname = child.name?.toLowerCase();
+                const childname = child.name?.toLowerCase().trim();
                 if (childname === 'bonus') {
                     return '';
-                } else if (childname === 'name') {
-                    return await renderInstantTextBox({ ...text, text: technology.id }, parentInfo, commonOptions);
+                } else if (isTechnologyLabelTextBox(childname)) {
+                    const localisedText = await getLocalisedTextQuick(technology.id);
+                    return await renderInstantTextBox(
+                        { ...text, text: getTechnologyLabelContent(technology.id, localisedText) },
+                        parentInfo,
+                        { ...commonOptions, localise: false, rawText: true }
+                    );
                 }
             }
 
@@ -381,7 +405,7 @@ async function renderTechnology(
     return `<div
         start="${technology.token?.start}"
         end="${technology.token?.end}"
-        title="${technology.id}${localisationIndex ? `\n${await getLocalisedTextQuick(technology.id)}` : ''}\n(${folder.x}, ${folder.y})"
+        ${await getTechnologyTitleAttributes(technology.id, folder)}
         class="
             navigator 
             ${commonOptions.styleTable.style('navigator', () => `
@@ -449,7 +473,7 @@ async function renderSubTechnology(
     return `<div
         start="${subTechnology.token?.start}"
         end="${subTechnology.token?.end}"
-        title="${subTechnology.id}${localisationIndex ? `\n${await getLocalisedTextQuick(subTechnology.id)}` : ''}\n(${folder.x}, ${folder.y})"
+        ${await getTechnologyTitleAttributes(subTechnology.id, folder)}
         class="
             navigator
             ${commonOptions.styleTable.style('navigator', () => `
@@ -464,6 +488,40 @@ async function renderSubTechnology(
         ">
             ${containerWindowResult}
         </div>`;
+}
+
+function isTechnologyLabelTextBox(childname: string | undefined): boolean {
+    return childname === 'name';
+}
+
+function isTechnologyStaticTitleTextBox(textbox: HOIPartial<InstantTextBoxType>): boolean {
+    const name = textbox.name?.toLowerCase().trim();
+    const text = textbox.text?.trim();
+    if (!name || !text) {
+        return false;
+    }
+
+    return name.includes('title')
+        || name.includes('subtitle')
+        || /(^|_)TITLE(_|$)/i.test(text);
+}
+
+function getLocalisationLabelContent(localisationKey: string, localisedText: string | undefined): string {
+    const name = localisedText && localisedText !== localisationKey ? localisedText : localisationKey;
+    return `<span data-preview-label-id="${htmlEscape(localisationKey)}" data-preview-label-name="${htmlEscape(name)}">${htmlEscape(localisationKey)}</span>`;
+}
+
+function getTechnologyLabelContent(technologyId: string, localisedText: string | undefined): string {
+    const name = localisedText && localisedText !== technologyId ? localisedText : technologyId;
+    return `<span data-preview-label-id="${htmlEscape(technologyId)}" data-preview-label-name="${htmlEscape(name)}">${htmlEscape(technologyId)}</span>`;
+}
+
+async function getTechnologyTitleAttributes(technologyId: string, folder: TechnologyFolder): Promise<string> {
+    const localisedText = await getLocalisedTextQuick(technologyId);
+    const name = localisedText && localisedText !== technologyId ? localisedText : technologyId;
+    const idTitle = `${technologyId}\n(${folder.x}, ${folder.y})`;
+    const nameTitle = `${name}\n(${folder.x}, ${folder.y})`;
+    return `title="${htmlEscape(idTitle)}" data-preview-title-id="${htmlEscape(idTitle)}" data-preview-title-name="${htmlEscape(nameTitle)}"`;
 }
 
 const centerNameTable = [
