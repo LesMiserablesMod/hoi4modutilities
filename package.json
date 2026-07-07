@@ -224,7 +224,7 @@
 		"mocha": "^11.1.0",
 		"raw-loader": "^4.0.1",
 		"rimraf": "^3.0.2",
-		"serve": "^14.2.0",
+		"serve": "^14.2.6",
 		"terser-webpack-plugin": "^5.3.11",
 		"ts-loader": "^9.4.1",
 		"tslib": "^2.2.0",
