@@ -1,4 +1,4 @@
-import { error } from "./debug";
+﻿import { error } from "./debug";
 import { __table } from '../../i18n/en';
 
 let table: Record<string, string> = {};
@@ -13,9 +13,14 @@ export function loadI18n(locale?: string) {
         {};
 }
 
+type WebpackRequireContext = (request: string) => { default: Record<string, string>; };
+type WebpackRequire = typeof require & {
+    context(directory: string, useSubdirectories: boolean, regExp: RegExp): WebpackRequireContext;
+};
+
 function tryLoadTable(locale: string): Record<string, string> | undefined {
     try {
-        const requireContext = require.context('../../i18n', false, /\/(?!template)[\w-]*\.ts$/);
+        const requireContext = (require as WebpackRequire).context('../../i18n', false, /\/(?!template)[\w-]*\.ts$/);
         return requireContext('./' + locale + '.ts').default;
     } catch(e) {
         error(e);
@@ -53,3 +58,4 @@ export function localizeText(text: string): string {
 export function i18nTableAsScript(): string {
     return 'window.__i18ntable = ' + JSON.stringify(table) + ';';
 }
+

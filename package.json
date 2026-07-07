@@ -15,6 +15,7 @@
 		"url": "https://github.com/LesMiserablesMod/hoi4modutilities/issues"
 	},
 	"engines": {
+		"node": ">=24",
 		"vscode": "^1.52.0"
 	},
 	"categories": [
@@ -213,7 +214,7 @@
 		"@types/js-yaml": "^3.12.5",
 		"@types/lodash": "^4.14.149",
 		"@types/mocha": "^7.0.2",
-		"@types/node": "^13.11.0",
+		"@types/node": "^24.0.0",
 		"@types/pngjs": "^3.4.2",
 		"@types/vscode": "^1.52.0",
 		"@typescript-eslint/eslint-plugin": "^4.9.0",
