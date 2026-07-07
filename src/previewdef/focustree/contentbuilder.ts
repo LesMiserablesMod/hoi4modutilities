@@ -231,9 +231,10 @@ async function renderFocus(focus: Focus, styleTable: StyleTable, gfxFiles: strin
     }
 
     const localisedText = await getFocusLocalisedText(focus);
+    const localisedDesc = await getFocusLocalisedDesc(focus);
     const textContent = htmlEscape(focus.id);
     const labelAttributes = getPreviewLabelAttributes(focus.id, localisedText);
-    const titleAttributes = getPreviewTitleAttributes(focus.id, localisedText, '{{position}}');
+    const titleAttributes = getPreviewTitleAttributes(focus.id, localisedText, '{{position}}', localisedDesc);
 
     return `<div
     class="
@@ -300,13 +301,32 @@ async function getFocusLocalisedText(focus: Focus): Promise<string | undefined> 
     return undefined;
 }
 
+async function getFocusLocalisedDesc(focus: Focus): Promise<string | undefined> {
+    if (focus.text) {
+        const textDescKey = focus.text + '_desc';
+        const localisedTextDesc = await getLocalisedTextQuick(textDescKey);
+        if (localisedTextDesc && localisedTextDesc !== textDescKey) {
+            return localisedTextDesc;
+        }
+    }
+
+    const idDescKey = focus.id + '_desc';
+    const localisedIdDesc = await getLocalisedTextQuick(idDescKey);
+    if (localisedIdDesc && localisedIdDesc !== idDescKey) {
+        return localisedIdDesc;
+    }
+
+    return undefined;
+}
+
 function getPreviewLabelAttributes(id: string, name: string | undefined): string {
     return `data-preview-label-id="${htmlEscape(id)}" data-preview-label-name="${htmlEscape(name ?? id)}"`;
 }
 
-function getPreviewTitleAttributes(id: string, name: string | undefined, position: string): string {
-    const idTitle = `${id}\n(${position})`;
-    const nameTitle = `${name ?? id}\n(${position})`;
+function getPreviewTitleAttributes(id: string, name: string | undefined, position: string, desc: string | undefined): string {
+    const descText = desc ? `\n\n${desc}` : '';
+    const idTitle = `${id}\n(${position})${descText}`;
+    const nameTitle = `${name ?? id}\n(${position})${descText}`;
     return `title="${htmlEscape(idTitle)}" data-preview-title-id="${htmlEscape(idTitle)}" data-preview-title-name="${htmlEscape(nameTitle)}"`;
 }
 
