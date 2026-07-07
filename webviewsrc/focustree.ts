@@ -1,4 +1,4 @@
-import { getState, setState, arrayToMap, subscribeNavigators, scrollToState, tryRun, enableZoom, subscribePreviewLabelToggle, refreshPreviewLabelMode } from "./util/common";
+﻿import { getState, setState, arrayToMap, subscribeNavigators, scrollToState, tryRun, enableZoom, subscribePreviewLabelToggle, refreshPreviewLabelMode } from "./util/common";
 import { DivDropdown } from "./util/dropdown";
 import { difference, minBy } from "lodash";
 import { renderGridBoxCommon, GridBoxItem, GridBoxConnection } from "../src/util/hoi4gui/gridboxcommon";
@@ -98,7 +98,7 @@ async function buildContent() {
         items: arrayToMap(focusGrixBoxItems, 'id'),
         onRenderItem: item => Promise.resolve(
             renderedFocus[item.id]
-                .replace('{{position}}', item.gridX + ', ' + item.gridY)
+                .split('{{position}}').join(item.gridX + ', ' + item.gridY)
                 .replace('{{iconClass}}', getFocusIcon(focusTree.focuses[item.id], exprs, styleTable))
             ),
         cornerPosition: 0.5,
@@ -487,3 +487,4 @@ window.addEventListener('load', tryRun(async function() {
     await buildContent();
     scrollToState();
 }));
+

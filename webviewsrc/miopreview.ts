@@ -1,4 +1,4 @@
-import { getState, setState, arrayToMap, subscribeNavigators, scrollToState, tryRun, enableZoom } from "./util/common";
+﻿import { getState, setState, arrayToMap, subscribeNavigators, scrollToState, tryRun, enableZoom } from "./util/common";
 import { DivDropdown } from "./util/dropdown";
 import { minBy } from "lodash";
 import { renderGridBoxCommon, GridBoxItem, GridBoxConnection } from "../src/util/hoi4gui/gridboxcommon";
@@ -48,7 +48,7 @@ async function buildContent() {
         styleTable,
         items: arrayToMap(traitGrixBoxItems, 'id'),
         onRenderItem: item => Promise.resolve(
-            renderedTrait[item.id].replace('{{position}}', item.gridX + ', ' + item.gridY)),
+            renderedTrait[item.id].split('{{position}}').join(item.gridX + ', ' + item.gridY)),
         cornerPosition: 0.5,
     });
 
@@ -277,3 +277,4 @@ window.addEventListener('load', tryRun(async function() {
     await buildContent();
     scrollToState();
 }));
+
