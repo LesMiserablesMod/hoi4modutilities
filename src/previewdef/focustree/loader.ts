@@ -6,7 +6,6 @@ import { uniq, flatten, chain } from "lodash";
 import { getGfxContainerFiles } from "../../util/gfxindex";
 import { sharedFocusIndex } from "../../util/featureflags";
 import { findFileByFocusKey } from "../../util/sharedFocusIndex";
-import { listFilesFromModOrHOI4 } from "../../util/fileloader";
 
 export interface FocusTreeLoaderResult {
     focusTrees: FocusTree[];
@@ -55,14 +54,10 @@ export class FocusTreeLoader extends ContentLoader<FocusTreeLoaderResult> {
             .flatMap(ft => Object.values(ft.focuses))
             .flatMap(f => [...f.icon.map(i => i.icon), f.overlay])
             .value();
-        const workspaceGfxFiles = (await listFilesFromModOrHOI4('interface', { hoi4: false, recursively: true }))
-            .filter(f => f.toLocaleLowerCase().endsWith('.gfx'))
-            .map(f => 'interface/' + f);
 
         const gfxDependencies = [
             ...dependencies.filter(d => d.type === 'gfx').map(d => d.path),
             ...flatten(focusTreeDepFiles.map(f => f.result.gfxFiles)),
-            ...workspaceGfxFiles,
             ...await getGfxContainerFiles(focusGfxNames),
         ];
 
